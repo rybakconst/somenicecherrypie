@@ -57,7 +57,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 #### *ИМПОРТ* ####
-returns <- read.csv2(file = "/Users/konstantinrybak/Desktop/vika/returns.csv",
+returns <- read.csv2(file = "returns.csv",
                         header = TRUE, stringsAsFactors = FALSE , na.strings = "NA",
                         strip.white = TRUE)   # собственно импорт
 
@@ -126,11 +126,12 @@ portfolio.start <- function(x, data, number){
 
 #### ...немножко параллельности для скорости ####
 iterations = 500000 # количество итераций, далее время (обратить внимание что функция вызывается 6 раз)
-#  6*100    -    7  сек ;fork - 7
-#  6*1000   -   46  cек ;fork - 81
-#  6*2000   -   91  сек ;
-#  6*10000  -  456  cек
-#  6*500000 - 38506 сек
+#  время на Intel Core i7-4770HQ
+#  6*100    -     7 сек ;fork - 7
+#  6*1000   -    46 cек ;fork - 81
+#  6*2000   -    91 сек ;
+#  6*10000  -   456 cек ;
+#  6*500000 - 38506 сек ;
 # VVVVVVVVVVVVVVVVVVVV всё что отмечено выделить и запустить, как досчитает, проорёт
   beg = Sys.time()                                                                  # отмечено
   M <- detectCores()                                                                # отмечено
@@ -157,22 +158,22 @@ hor10 <- hor10[[1]]
 
 #### *СОХРАНИМ ДАННЫЕ* ####
 savedata <- function(){ # cохранит дата фреймы по которым строилось
-  write.csv2(hor1, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor1_38000.csv")
-  write.csv2(hor3, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor3_38000.csv")
-  write.csv2(hor5, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor5_38000.csv")
-  write.csv2(hor7, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor7_38000.csv")
-  write.csv2(hor9, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor9_38000.csv")
-  write.csv2(hor10, file = "/Users/konstantinrybak/Desktop/vika/ready/data/hor10_38000.csv")
+  write.csv2(hor1, file = "hor1_38000.csv")
+  write.csv2(hor3, file = "hor3_38000.csv")
+  write.csv2(hor5, file = "hor5_38000.csv")
+  write.csv2(hor7, file = "hor7_38000.csv")
+  write.csv2(hor9, file = "hor9_38000.csv")
+  write.csv2(hor10, file = "hor10_38000.csv")
 }
 savedata()
 
 saveplots <- function(){ # сохранит все графики в файлы, путь указывать в path VVVVVVVVVVVV
-  ggplot2::ggsave("g1.png", plot = g1, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
-  ggplot2::ggsave("g3.png", plot = g3, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
-  ggplot2::ggsave("g5.png", plot = g5, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
-  ggplot2::ggsave("g7.png", plot = g7, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
-  ggplot2::ggsave("g9.png", plot = g9, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
-  ggplot2::ggsave("g10.png", plot = g10, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
+  ggplot2::ggsave("g1.png", plot = g1, path = "/", dpi = 1200)
+  ggplot2::ggsave("g3.png", plot = g3, path = "/", dpi = 1200)
+  ggplot2::ggsave("g5.png", plot = g5, path = "/", dpi = 1200)
+  ggplot2::ggsave("g7.png", plot = g7, path = "/", dpi = 1200)
+  ggplot2::ggsave("g9.png", plot = g9, path = "/", dpi = 1200)
+  ggplot2::ggsave("g10.png", plot = g10, path = "/", dpi = 1200)
 }
 saveplots()
 #### *ГРАФИКИ* ####
@@ -332,10 +333,10 @@ ggplot2::ggsave("g10.png", plot = g10, path = path, dpi = 1200)
 
 # строит сетку из шести графиков
 mult <- plot_grid(g1, g3, g5, g7, g9, g10, ncol = 2, nrow = 3)
-return(mult) # возвращает графики на сетке 2/3
+return(mult) # возвращает графики на сетке 2*3
 }
 
-ppp <- serialplot(color = "sr", xscale = NULL, yscale = NULL, path ="/Users/konstantinrybak/Desktop/vika/ready/")
+ppp <- serialplot(color = "sr", xscale = NULL, yscale = NULL, path ="/")
 ppp
 
 
@@ -458,8 +459,6 @@ finplot
 
 
 
-#save_plot("/Users/konstantinrybak/Desktop/vika/ready/mult.png", mult, base_aspect_ratio = 1)
-
 
 
 
@@ -489,7 +488,7 @@ ug <- ggplot(data = hor1, aes(x = sd, y = means, col = sr)) +
 ug
 
 
-#### .... пример КРАСИВЫЙ в аре ГГПЛОТ ####
+#### .... примерГГПЛОТ ####
 
 library(ggplot2)
 g <- ggplot(data = data, aes(x = z.sd, y = z.means)) + 
@@ -525,47 +524,47 @@ hor10["group"] <- 10
 new.df <- rbind(hor1, hor3, hor5, hor7, hor9, hor10)
 new.df <- rbind(hor1, hor10)
 rm(p1,p2,p3, theme0)
-p1 <- ggplot(new.df, aes(x = sd, y = means, colour=factor(group))) +
+p1 <- ggplot(new.df, aes(x = sd, y = means, colour = factor(group))) +
   geom_point(size = 0.5, alpha = 0.1, shape = 21) +
-  scale_x_continuous(c(0,16)) +
-  scale_y_continuous(c(0,4)) +
+  scale_x_continuous(c(0, 16)) +
+  scale_y_continuous(c(0, 4)) +
   #xlab("Стандартное Отклонение") +
   #ylab("Средняя Доходность") +
-  theme(legend.position="none", plot.margin=unit(c(0,0,0,0),"points"))
+  theme(legend.position = "none", plot.margin = unit(c(0, 0, 0, 0), "points"))
 p1
 
 theme0 <- function(...) theme( legend.position = "none",
                                panel.background = element_blank(),
                                panel.grid.major = element_blank(),
                                panel.grid.minor = element_blank(),
-                               panel.spacing = unit(0,"null"),
+                               panel.spacing = unit(0, "null"),
                                axis.ticks = element_blank(),
                                axis.text.x = element_blank(),
                                axis.text.y = element_blank(),
                                axis.title.x = element_blank(),
                                axis.title.y = element_blank(),
-                               axis.ticks.length = unit(0,"null"),
-                               axis.ticks.margin = unit(0,"null"),
-                               panel.border=element_rect(color=NA),...)
+                               axis.ticks.length = unit(0, "null"),
+                               axis.ticks.margin = unit(0, "null"),
+                               panel.border=element_rect(color = NA), ...)
 
-p2 <- ggplot(new.df, aes(x = sd, colour=factor(group), fill = factor(group))) + 
+p2 <- ggplot(new.df, aes(x = sd, colour = factor(group), fill = factor(group))) + 
   geom_density(alpha = 0.5) + 
-  scale_x_continuous(breaks=NULL,c(0,16)) +
-  scale_y_continuous(breaks=NULL,c(0,4)) +
+  scale_x_continuous(breaks = NULL, c(0,16)) +
+  scale_y_continuous(breaks = NULL, c(0,4)) +
   theme_bw() +
-  theme0(plot.margin = unit(c(1,0,-0.2,2.2),"lines"))
+  theme0(plot.margin = unit(c(1, 0, -0.2, 2.2),"lines"))
 p2
 
-p3 <- ggplot(new.df, aes(x = means, colour=factor(group), fill = factor(group))) + 
+p3 <- ggplot(new.df, aes(x = means, colour = factor(group), fill = factor(group))) + 
   geom_density(alpha = 0.5) + 
   coord_flip()  + 
-  scale_x_continuous(labels = NULL,breaks=NULL,c(0,16)) +
-  scale_y_continuous(labels = NULL,breaks=NULL,c(0,4)) +
+  scale_x_continuous(labels = NULL,breaks = NULL, c(0,16)) +
+  scale_y_continuous(labels = NULL,breaks = NULL, c(0,4)) +
   theme_bw() +
-  theme0(plot.margin = unit(c(0,1,1.2,-0.27),"lines"))
+  theme0(plot.margin = unit(c(0, 1, 1.2, -0.27), "lines"))
 p3  
 
-g<-grid.arrange(arrangeGrob(p2,ncol=2,widths=c(3,1)),
-             arrangeGrob(p1,p3,ncol=2,widths=c(3,1)),
-             heights=c(1,3))
-ggplot2::ggsave("g.png", plot = g, path = "/Users/konstantinrybak/Desktop/vika/ready/", dpi = 1200)
+g <- grid.arrange(arrangeGrob(p2, ncol = 2, widths = c(3,1)),
+             arrangeGrob(p1, p3, ncol = 2, widths = c(3,1)),
+             heights = c(1,3))
+ggplot2::ggsave("g.png", plot = g, path = "/", dpi = 1200)
